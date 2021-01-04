@@ -13,4 +13,4 @@ A place to include any other types of information that you'd like to include abo
 
 ### Contact me
 
-[ssamilozkan@gmail.com](mailto:email@domain.com)
+[ssamilozkan@gmail.com](mailto:ssamilozkan@gmail.com)
