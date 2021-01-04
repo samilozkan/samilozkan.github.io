@@ -1,1 +1,2 @@
-![]({{site.baseurl}}//2012-10-27%2023-45-27.JPG)
+![imago0075745079s.jpg]({{site.baseurl}}/imago0075745079s.jpg)
+
