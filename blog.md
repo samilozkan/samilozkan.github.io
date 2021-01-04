@@ -1,3 +1,1 @@
-## A New Post
-
-BLOG
+![]({{site.baseurl}}//2012-10-27%2023-45-27.JPG)
