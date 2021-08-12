@@ -1,3 +1,10 @@
+---
+layout: page
+title: Books
+permalink: /about/
+published: true
+---
+
 
 # Coming soon...
 
