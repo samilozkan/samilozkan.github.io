@@ -9,7 +9,7 @@ published: true
 
 ### Hi I'm Şamil 👋🏼
 
-I am Data Scientist at Global Stuctured Finance(UK). I am skilled in data analysis, data science, hypothesis testing, machine learning algorithms, deep learning algorithms and optimization, Python, and R programming language.
+I am a Python and Django Developer. I am skilled in data analysis, data science, hypothesis testing, machine learning algorithms, deep learning algorithms and optimization, Python, and R programming language.
 
 I have been fascinated by data science, increasingly quantitative nature decision-making; I am dedicated to stay up to date with the newest technologies and analytic techniques that I mentioned before.
 
