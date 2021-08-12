@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Books
-permalink: /about/
+permalink: /books/
 published: true
 ---
 
