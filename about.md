@@ -9,7 +9,7 @@ published: true
 
 ### Hi I'm Şamil 👋🏼
 
-I am a data engineer. I am skilled in data analysis, data engineering, build a ELT/ETL pipeline with data orchestiration tools like airflo, dbt etc.
+I am a data engineer. I am skilled in data analysis, data engineering, build a ELT/ETL pipeline with data orchestiration tools like Airflow, dbt etc.
 
 I have been fascinated by data impact, increasingly quantitative nature decision-making; I am dedicated to stay up to date with the newest technologies and analytic techniques that I mentioned before.
 
