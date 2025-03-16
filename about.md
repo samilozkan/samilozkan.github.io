@@ -7,14 +7,58 @@ published: true
 
 
 
-### Hi I'm Şamil 👋🏼
+# Hi there, I'm Samil 👋
 
-I am a data engineer. I am skilled in data analysis, data engineering, build a ELT/ETL pipeline with data orchestiration tools like Airflow, dbt etc.
+## Data Engineer & Analytics Professional
 
-I have been fascinated by data impact, increasingly quantitative nature decision-making; I am dedicated to stay up to date with the newest technologies and analytic techniques that I mentioned before.
+Data Engineer with 4+ years of experience designing and implementing scalable data solutions. Specialized in building robust ETL/ELT pipelines, data warehousing, and cloud-based analytics infrastructure.
 
-I have excellent analytical skills and good relationship with people. I am also self-motivated, responsible, and highly organized and enjoy mining solutions from data and people.
+## 💻 Tech Stack
 
-### Contact me
+```python
+skills = {
+    "Languages": ["Python", "SQL", "Bash", "R"],
+    "Data Processing": ["Pandas", "NumPy", "PySpark", "Apache Spark", "Hadoop"],
+    "Orchestration": ["Airflow", "Cloud Composer"],
+    "Databases": ["BigQuery", "PostgreSQL", "MongoDB", "Apache Impala"],
+    "Data Modeling": ["dbt", "Data Warehousing", "Dimensional Modeling"],
+    "Cloud": ["GCP", "AWS", "Cloud Run", "Dataflow", "S3", "Lambda", "DynamoDB"],
+    "DevOps": ["Docker", "Git", "CI/CD"],
+    "Visualization": ["Tableau", "PowerBI", "Matplotlib", "Seaborn"]
+}
+```
 
-[ssamilozkan@gmail.com](mailto:ssamilozkan@gmail.com)
+## 📊 Data Engineering Focus
+
+- **Pipeline Development**: Designing and maintaining robust data pipelines using Airflow, ensuring reliability and efficiency
+- **Data Warehouse Design**: Creating scalable data models for analytics and reporting workloads
+- **Data Quality**: Implementing comprehensive quality controls and monitoring systems
+- **Cloud Architecture**: Building cloud-native data solutions on GCP and AWS
+- **Performance Optimization**: Tuning database queries and ETL processes for maximum efficiency
+
+## 🔭 I'm currently working on
+
+- Designing event-driven data pipelines with real-time processing capabilities
+- Implementing DataOps practices for improved collaboration between data teams
+- Exploring modern data stack technologies and architectural patterns
+
+## 📚 Certifications
+
+- Python 3 Programming - University of Michigan
+- AWS Fundamentals: Going Cloud-Native - Amazon Web Services
+- Google Analytics Certificate
+- Data Science Professional Certificate - IBM
+
+## 📫 Connect with me
+
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/yourprofile/)
+
+---
+
+```sql
+SELECT 
+  'Thanks for visiting my profile!' AS message,
+  CURRENT_DATE() AS today
+```
+
+
