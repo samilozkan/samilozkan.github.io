@@ -16,24 +16,32 @@
   </head>
 
   <body>
+    <canvas id="data-bg" aria-hidden="true"></canvas>
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
           <div class="site-info">
             <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
             <p class="site-description">{{ site.description }}</p>
           </div>
 
           <nav>
-            <a href="{{ site.baseurl }}/python">Python</a>
-            <a href="{{ site.baseurl }}/machine_learning">SQL</a>
-            <a href="{{ site.baseurl }}/data_science">Data Engineering</a>
-            <a href="{{ site.baseurl }}/book">Books</a>
-            <a href="{{ site.baseurl }}/about">About</a>
-            
+            <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="{{ site.baseurl }}/" title="Home"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+            <a class="nav-link{% if page.url contains '/blog' %} active{% endif %}" href="{{ site.baseurl }}/blog" title="Blog"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM13 7l4 4"/></svg><span>Blog</span></a>
+            <a class="nav-link{% if page.url contains '/data-engineering' %} active{% endif %}" href="{{ site.baseurl }}/data-engineering" title="Data Engineering"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span>Data Engineering</span></a>
+            <a class="nav-link{% if page.url contains '/books' %} active{% endif %}" href="{{ site.baseurl }}/books" title="Books"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2V5zM4 19a2 2 0 012-2h13"/></svg><span>Books</span></a>
+            <a class="nav-link{% if page.url contains '/about' %} active{% endif %}" href="{{ site.baseurl }}/about" title="About"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>About</span></a>
           </nav>
+
+          <div class="pipeline" aria-hidden="true">
+            <div class="pipeline-code"><span class="prompt">$</span> <span class="typed" data-text="{{ page.terminal | default: 'run_pipeline --source raw_data --target insights' | escape }}"></span></div>
+            <div class="pipeline-flow">
+              <span class="node">extract</span><span class="wire"></span>
+              <span class="node">transform</span><span class="wire"></span>
+              <span class="node">load</span><span class="wire"></span>
+              <span class="node">insight</span>
+            </div>
+          </div>
         </header>
       </div>
     </div>
@@ -45,11 +53,72 @@
     <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
-          {% include svg-icons.html %}
+          <div class="footer-links">
+            <a href="https://github.com/{{ site.footer-links.github }}" title="GitHub" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 00-1.3-3.2 4.2 4.2 0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 00-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 00-.1 3.2A4.6 4.6 0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a>
+            <a href="https://www.linkedin.com/in/{{ site.footer-links.linkedin }}" title="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg></a>
+          </div>
+          <p class="footer-note"><span>&gt;</span> pipeline complete &middot; &copy; {{ site.time | date: "%Y" }} {{ site.name }}</p>
         </footer>
       </div>
     </div>
 
     {% include analytics.html %}
+    <script>
+    (function () {
+      var c = document.getElementById('data-bg');
+      if (!c || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var x = c.getContext('2d'), w, h, nodes = [], packets = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
+      function size() {
+        w = window.innerWidth; h = window.innerHeight;
+        c.width = w * dpr; c.height = h * dpr;
+        x.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var n = Math.max(25, Math.min(70, Math.round(w * h / 22000)));
+        nodes = [];
+        for (var i = 0; i < n; i++) nodes.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25 });
+      }
+      function frame() {
+        x.clearRect(0, 0, w, h);
+        var i, j, a, b, d, D = 150;
+        for (i = 0; i < nodes.length; i++) {
+          a = nodes[i]; a.x += a.vx; a.y += a.vy;
+          if (a.x < 0 || a.x > w) a.vx *= -1;
+          if (a.y < 0 || a.y > h) a.vy *= -1;
+        }
+        for (i = 0; i < nodes.length; i++) {
+          a = nodes[i];
+          for (j = i + 1; j < nodes.length; j++) {
+            b = nodes[j]; d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < D) {
+              x.strokeStyle = 'rgba(65,131,196,' + (0.22 * (1 - d / D)) + ')';
+              x.lineWidth = 1; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke();
+              if (Math.random() < 0.0006 && packets.length < 12) packets.push({ a: a, b: b, t: 0 });
+            }
+          }
+          x.fillStyle = 'rgba(139,233,160,0.5)';
+          x.beginPath(); x.arc(a.x, a.y, 1.6, 0, 6.283); x.fill();
+        }
+        for (i = packets.length - 1; i >= 0; i--) {
+          var p = packets[i]; p.t += 0.015;
+          if (p.t >= 1) { packets.splice(i, 1); continue; }
+          x.fillStyle = 'rgba(139,233,160,0.9)';
+          x.beginPath(); x.arc(p.a.x + (p.b.x - p.a.x) * p.t, p.a.y + (p.b.y - p.a.y) * p.t, 2.2, 0, 6.283); x.fill();
+        }
+        requestAnimationFrame(frame);
+      }
+      size(); window.addEventListener('resize', size); frame();
+    })();
+    </script>
+    <script>
+    (function () {
+      var el = document.querySelector('.typed');
+      if (!el) return;
+      var txt = el.getAttribute('data-text'), i = 0;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = txt; return; }
+      setTimeout(function tick() {
+        el.textContent = txt.slice(0, ++i);
+        if (i < txt.length) setTimeout(tick, 45);
+      }, 400);
+    })();
+    </script>
   </body>
 </html>

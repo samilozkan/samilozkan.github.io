@@ -18,9 +18,9 @@ html {
 }
 
 body {
-	background: $white;
+	background: $black;
   font: 18px/1.4 $helvetica;
-  color: $darkGray;
+  color: $lightGray;
 }
 
 .container {
@@ -32,7 +32,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $helveticaNeue;
-  color: $darkerGray;
+  color: $white;
   font-weight: bold;
 
   line-height: 1.7;
@@ -61,7 +61,7 @@ h3 {
 
 h4 {
   font-size: 18px;
-  color: $gray;
+  color: #aaa;
 }
 
 p {
@@ -192,7 +192,7 @@ img {
 
 .site-name {
   margin: 0;
-  color: $darkGray;
+  color: $white;
   cursor: pointer;
   font-family: $helveticaNeue;
   font-weight: 300;
@@ -225,7 +225,7 @@ nav {
 
   a {
     margin-left: 20px;
-    color: $darkGray;
+    color: $lightGray;
     text-align: right;
     font-weight: 300;
     letter-spacing: 1px;
@@ -243,7 +243,7 @@ nav {
 
 .posts > .post {
   padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
+  border-bottom: 1px solid $darkGray;
 }
 
 .posts > .post:last-child {
@@ -273,9 +273,8 @@ nav {
 
 .wrapper-footer {
   margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
 }
 
 footer {
@@ -287,3 +286,322 @@ footer {
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
 @import "svg-icons";
+
+//
+// Animations
+//
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.wrapper-masthead {
+  animation: fadeIn 0.8s ease-out both;
+}
+
+#main > * {
+  animation: fadeInUp 0.7s ease-out both;
+  @for $i from 1 through 12 {
+    &:nth-child(#{$i}) { animation-delay: #{$i * 0.08}s; }
+  }
+}
+
+a {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+nav a:hover {
+  color: $white;
+  transform: translateY(-2px);
+  display: inline-block;
+}
+
+.posts > .post {
+  transition: transform 0.25s ease;
+  &:hover { transform: translateX(6px); }
+}
+
+.svg-icon {
+  transition: transform 0.25s ease;
+  &:hover { transform: scale(1.2) rotate(8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+//
+// Data pipeline animation
+//
+
+.pipeline {
+  clear: both;
+  padding-top: 18px;
+  font-family: 'Bitstream Vera Sans Mono', Menlo, Courier, monospace;
+  font-size: 14px;
+  text-align: left;
+}
+
+.pipeline-code {
+  color: #8be9a0;
+  margin-bottom: 14px;
+
+  .prompt { color: #666; }
+
+  .typed {
+    display: inline-block;
+    white-space: pre;
+    vertical-align: bottom;
+    border-right: 2px solid #8be9a0;
+    min-height: 1.2em;
+    padding-right: 2px;
+    animation: caret 0.8s step-end infinite;
+  }
+}
+
+.pipeline-flow {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+
+  .node {
+    padding: 4px 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #aaa;
+    animation: nodePulse 4s ease-in-out infinite;
+    @for $i from 1 through 4 {
+      &:nth-of-type(#{$i}) { animation-delay: #{($i - 1) * 0.9}s; }
+    }
+  }
+
+  .wire {
+    position: relative;
+    flex: 1;
+    min-width: 20px;
+    height: 2px;
+    background: #333;
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -30%;
+      width: 30%;
+      height: 100%;
+      background: $blue;
+      animation: packet 1.8s linear infinite;
+    }
+  }
+}
+
+@keyframes caret { 50% { border-color: transparent; } }
+@keyframes packet { to { left: 100%; } }
+@keyframes nodePulse {
+  0%, 100% { border-color: #333; color: #aaa; }
+  15% { border-color: $blue; color: $white; box-shadow: 0 0 8px rgba(65,131,196,0.6); }
+  30% { border-color: #333; color: #aaa; box-shadow: none; }
+}
+
+@include mobile {
+  .pipeline-flow .node { padding: 3px 5px; font-size: 11px; }
+  .pipeline-code { font-size: 11px; }
+}
+
+//
+// Home page
+//
+
+.home-section { margin-bottom: 50px; }
+
+.section-label {
+  font-family: 'Bitstream Vera Sans Mono', Menlo, Courier, monospace;
+  font-size: 14px;
+  font-weight: normal;
+  color: #8be9a0;
+  letter-spacing: 1px;
+  span { color: #666; }
+}
+
+.post-list { display: flex; flex-direction: column; gap: 12px; }
+
+.post-card {
+  display: block;
+  padding: 14px 18px;
+  border: 1px solid $darkGray;
+  border-radius: 6px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  &:hover { border-color: $blue; transform: translateX(6px); }
+
+  .post-date { display: block; font-size: 13px; color: $gray; }
+  .post-title { display: block; font-size: 20px; font-weight: bold; color: $white; }
+  .post-excerpt { display: block; font-size: 15px; color: #aaa; }
+}
+
+.intro h1 { font-size: 42px; margin-bottom: 0; }
+.intro .lead { font-size: 21px; color: #ccc; }
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.stage {
+  position: relative;
+  padding: 18px;
+  border: 1px solid $darkGray;
+  border-radius: 6px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  &:hover { border-color: $blue; box-shadow: 0 0 14px rgba(65,131,196,0.35); }
+
+  .stage-no {
+    font-family: Menlo, Courier, monospace;
+    font-size: 13px;
+    color: #8be9a0;
+  }
+  h3 { margin: 4px 0 6px; }
+  p { margin: 6px 0; font-size: 16px; color: #bbb; }
+  .chips span {
+    display: inline-block;
+    margin: 3px 4px 0 0;
+    padding: 2px 8px;
+    border: 1px solid $darkGray;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #aaa;
+  }
+}
+
+.exploring li { margin: 6px 0; }
+
+.contact a {
+  display: inline-block;
+  margin-right: 12px;
+  padding: 6px 16px;
+  border: 1px solid $blue;
+  border-radius: 4px;
+  &:hover { background: $blue; color: $white; }
+}
+
+.stage-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 30px;
+  height: 30px;
+  color: $blue;
+  opacity: 0.8;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.stage:hover .stage-icon { transform: scale(1.15); opacity: 1; }
+
+#data-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+nav {
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 16px;
+    border-radius: 999px;
+    color: #9aa4b2;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transform: none;
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      color: $white;
+      background: rgba(255,255,255,0.08);
+      transform: none;
+    }
+
+    &.active {
+      color: $white;
+      background: linear-gradient(135deg, rgba(65,131,196,0.55), rgba(139,233,160,0.25));
+      box-shadow: 0 0 16px rgba(65,131,196,0.45), inset 0 0 0 1px rgba(255,255,255,0.18);
+    }
+  }
+}
+
+.nav-icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+@include mobile {
+  nav {
+    float: none;
+    justify-content: center;
+    width: fit-content;
+    margin: 12px auto 0;
+    .nav-link { padding: 10px 14px; span { display: none; } }
+  }
+  .nav-icon { width: 22px; height: 22px; }
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    color: #9aa4b2;
+    transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+
+    &:hover {
+      color: $white;
+      border-color: $blue;
+      box-shadow: 0 0 14px rgba(65,131,196,0.5);
+      transform: translateY(-3px);
+    }
+  }
+
+  svg { width: 20px; height: 20px; }
+}
+
+.footer-note {
+  margin: 16px 0 0;
+  font-family: 'Bitstream Vera Sans Mono', Menlo, Courier, monospace;
+  font-size: 12px;
+  color: #666;
+  span { color: #8be9a0; }
+}

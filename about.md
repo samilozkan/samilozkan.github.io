@@ -2,63 +2,38 @@
 layout: page
 title: About
 permalink: /about/
+terminal: 'whoami  # data & analytics engineer'
 published: true
 ---
 
+I'm Şamil, a Data & Analytics Engineer. I turn raw data into reliable, decision-ready insights by designing scalable ETL/ELT pipelines, data warehouses, and cloud-based analytics platforms that teams can trust.
 
+## Tech Stack
 
-# Hi there, I'm Samil 👋
+- **Languages:** Python, SQL, Bash, R
+- **Data Processing:** Pandas, NumPy, PySpark, Apache Spark, Hadoop
+- **Orchestration:** Airflow, Cloud Composer
+- **Databases:** BigQuery, PostgreSQL, MongoDB, Apache Impala
+- **Data Modeling:** dbt, Data Warehousing, Dimensional Modeling
+- **Cloud:** GCP, AWS, Cloud Run, Dataflow, S3, Lambda, DynamoDB
+- **DevOps:** Docker, Git, CI/CD
+- **Visualization:** Tableau, PowerBI, Matplotlib, Seaborn
 
-## Data Engineer & Analytics Professional
+## Focus Areas
 
-Data Engineer with 4+ years of experience designing and implementing scalable data solutions. Specialized in building robust ETL/ELT pipelines, data warehousing, and cloud-based analytics infrastructure.
+- **Pipeline Development:** robust, reliable data pipelines with Airflow
+- **Data Warehouse Design:** scalable data models for analytics and reporting
+- **Data Quality:** quality controls and monitoring
+- **Cloud Architecture:** cloud-native data solutions on GCP and AWS
+- **Performance Optimization:** tuning queries and ETL processes
 
-## 💻 Tech Stack
-
-```python
-skills = {
-    "Languages": ["Python", "SQL", "Bash", "R"],
-    "Data Processing": ["Pandas", "NumPy", "PySpark", "Apache Spark", "Hadoop"],
-    "Orchestration": ["Airflow", "Cloud Composer"],
-    "Databases": ["BigQuery", "PostgreSQL", "MongoDB", "Apache Impala"],
-    "Data Modeling": ["dbt", "Data Warehousing", "Dimensional Modeling"],
-    "Cloud": ["GCP", "AWS", "Cloud Run", "Dataflow", "S3", "Lambda", "DynamoDB"],
-    "DevOps": ["Docker", "Git", "CI/CD"],
-    "Visualization": ["Tableau", "PowerBI", "Matplotlib", "Seaborn"]
-}
-```
-
-## 📊 Data Engineering Focus
-
-- **Pipeline Development**: Designing and maintaining robust data pipelines using Airflow, ensuring reliability and efficiency
-- **Data Warehouse Design**: Creating scalable data models for analytics and reporting workloads
-- **Data Quality**: Implementing comprehensive quality controls and monitoring systems
-- **Cloud Architecture**: Building cloud-native data solutions on GCP and AWS
-- **Performance Optimization**: Tuning database queries and ETL processes for maximum efficiency
-
-## 🔭 I'm currently working on
-
-- Designing event-driven data pipelines with real-time processing capabilities
-- Implementing DataOps practices for improved collaboration between data teams
-- Exploring modern data stack technologies and architectural patterns
-
-## 📚 Certifications
+## Certifications
 
 - Python 3 Programming - University of Michigan
 - AWS Fundamentals: Going Cloud-Native - Amazon Web Services
 - Google Analytics Certificate
 - Data Science Professional Certificate - IBM
 
-## 📫 Connect with me
+## Connect
 
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/yourprofile/)
-
----
-
-```sql
-SELECT 
-  'Thanks for visiting my profile!' AS message,
-  CURRENT_DATE() AS today
-```
-
-
+[LinkedIn](https://www.linkedin.com/in/ssamilozkan/) · [GitHub](https://github.com/samilozkan)
