@@ -1,0 +1,88 @@
+{% raw %}
+<script>
+(function () {
+  var demos = document.querySelectorAll('.demo');
+  if (!demos.length) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var KW = {
+    sql: 'select|from|where|join|left|inner|on|group|by|order|as|and|or|with|sum|count|avg|max|min|over|partition|case|when|then|else|end|is|not|null|in|desc|asc|distinct|update|set|insert|into|values|true|false|rank|row_number|lag|lead',
+    python: 'import|from|as|def|return|for|in|if|else|elif|with|class|lambda|try|except|raise|while|True|False|None|print|yield|and|or|not|pass'
+  };
+  var COMMENT = { sql: '--', python: '#' };
+  var cache = {};
+
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function regexFor(lang) {
+    if (!cache[lang]) {
+      cache[lang] = new RegExp(
+        '(' + COMMENT[lang] + '[^\\n]*)|(\\{\\{[\\s\\S]*?\\}\\}|\\{%[\\s\\S]*?%\\})|(\'[^\'\\n]*\'|"[^"\\n]*")|(\\b\\d+(?:\\.\\d+)?\\b)|(@\\w+|\\b(?:' + KW[lang] + ')\\b)',
+        lang === 'sql' ? 'gi' : 'g'
+      );
+    }
+    cache[lang].lastIndex = 0;
+    return cache[lang];
+  }
+
+  function highlight(text, lang) {
+    if (!KW[lang]) return esc(text);
+    var re = regexFor(lang), out = '', last = 0, m;
+    while ((m = re.exec(text))) {
+      var cls = m[1] ? 'c' : m[2] ? 'j' : m[3] ? 's' : m[4] ? 'n' : 'k';
+      out += esc(text.slice(last, m.index)) + '<span class="t-' + cls + '">' + esc(m[0]) + '</span>';
+      last = re.lastIndex;
+    }
+    return out + esc(text.slice(last));
+  }
+
+  function setStatus(d, text) {
+    var s = d.querySelector('.demo-status');
+    if (s) s.textContent = text;
+  }
+
+  function run(d) {
+    var code = d.querySelector('.demo-code code'), lang = d.getAttribute('data-lang');
+    var full = d._full, id = d._id = (d._id || 0) + 1, n = 0;
+    var step = Math.min(6, Math.max(1, Math.ceil(full.length / 150)));
+    d.classList.remove('done');
+    setStatus(d, 'typing…');
+    (function tick() {
+      if (id !== d._id) return;
+      n = Math.min(full.length, n + step);
+      code.innerHTML = highlight(full.slice(0, n), lang) + (n < full.length ? '<span class="demo-caret"></span>' : '');
+      if (n < full.length) { setTimeout(tick, 22); return; }
+      setStatus(d, 'running…');
+      setTimeout(function () {
+        if (id !== d._id) return;
+        void d.offsetWidth;
+        d.classList.add('done');
+        setStatus(d, '✓ done');
+      }, 600);
+    })();
+  }
+
+  Array.prototype.forEach.call(demos, function (d) {
+    var pre = d.querySelector('.demo-code'), code = pre.querySelector('code');
+    var btn = d.querySelector('.demo-replay');
+    if (reduce) {
+      if (btn) btn.hidden = true;
+      code.innerHTML = highlight(code.textContent.replace(/\n$/, ''), d.getAttribute('data-lang'));
+      setStatus(d, '✓ done');
+      return;
+    }
+    d._full = code.textContent.replace(/\n$/, '');
+    pre.style.minHeight = pre.offsetHeight + 'px';
+    d.classList.add('armed');
+    code.textContent = '';
+    if (btn) btn.addEventListener('click', function () { run(d); });
+    if (!('IntersectionObserver' in window)) { run(d); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { io.unobserve(d); run(d); }
+      });
+    }, { threshold: 0.3 });
+    io.observe(d);
+  });
+})();
+</script>
+{% endraw %}
