@@ -623,3 +623,58 @@ nav {
   color: #666;
   span { color: #8be9a0; }
 }
+
+//
+// Bookshelf
+//
+
+.books-intro { color: #bbb; margin-bottom: 28px; }
+
+.bookshelf { display: flex; flex-direction: column; gap: 18px; }
+
+@keyframes bookIn {
+  from { opacity: 0; transform: translateX(-30px) rotateY(-25deg); }
+  to   { opacity: 1; transform: translateX(0) rotateY(0); }
+}
+
+.book {
+  display: flex;
+  perspective: 800px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-left: none;
+  border-radius: 4px 10px 10px 4px;
+  background: rgba(255,255,255,0.04);
+  overflow: hidden;
+  animation: bookIn 0.7s ease-out both;
+  animation-delay: calc(var(--i) * 0.15s);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+
+  &:hover {
+    transform: translateX(10px);
+    background: rgba(255,255,255,0.07);
+    box-shadow: -6px 0 0 var(--accent), 0 8px 28px rgba(0,0,0,0.6);
+  }
+
+  .book-spine {
+    flex: 0 0 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, var(--accent), rgba(0,0,0,0.55));
+    font-family: Menlo, Courier, monospace;
+    font-weight: bold;
+    font-size: 18px;
+    color: rgba(0,0,0,0.75);
+  }
+
+  .book-body { padding: 16px 20px; }
+  h3 { margin: 0 0 4px; font-size: 20px; }
+  p { margin: 3px 0; }
+  .book-author { color: var(--accent); font-size: 15px; }
+  .book-meta { font-family: Menlo, Courier, monospace; font-size: 12px; color: #777; }
+  .book-desc { margin-top: 8px; font-size: 16px; color: #bbb; }
+
+  @include mobile {
+    .book-spine { flex-basis: 40px; font-size: 14px; }
+  }
+}
