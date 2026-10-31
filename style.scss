@@ -481,7 +481,25 @@ nav a:hover {
   }
 }
 
-.exploring li { margin: 6px 0; }
+.exploring {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    position: relative;
+    margin: 8px 0;
+    padding-left: 24px;
+
+    &::before {
+      content: ">";
+      position: absolute;
+      left: 0;
+      color: #8be9a0;
+      font-family: 'Bitstream Vera Sans Mono', Menlo, Courier, monospace;
+      font-weight: bold;
+    }
+  }
+}
 
 .contact a {
   display: inline-block;
