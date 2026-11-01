@@ -88,4 +88,4 @@ def screen_name(name):
   <div class="cmd"><code>Environment variables</code><p>Secrets and config come from the environment, never from the repo.</p></div>
 </div>
 
-<p class="note">Read the official <a href="https://docs.python.org/3/" target="_blank" rel="noopener">Python documentation</a> or go <a href="/data-engineering/">back to Data Engineering</a>.</p>
+<p class="note">Read the official <a href="https://docs.python.org/3/" target="_blank" rel="noopener">Python documentation</a> or go <a href="/data-engineering/">back to Data etc.</a>.</p>

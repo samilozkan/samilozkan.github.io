@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Data Engineering
+title: Data etc.
 permalink: /data-engineering/
 terminal: 'dbt run && airflow dags trigger aml_daily_monitoring'
 published: true

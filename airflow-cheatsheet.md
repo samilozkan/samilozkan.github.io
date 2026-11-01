@@ -99,5 +99,5 @@ aml_daily_monitoring()
   <div class="cmd"><code>Let dbt/Spark do the heavy work</code><p>Airflow orchestrates. It should not process large data itself.</p></div>
 </div>
 
-<p class="note">Read the official <a href="https://airflow.apache.org/docs/" target="_blank" rel="noopener">Airflow documentation</a> or go <a href="/data-engineering/">back to Data Engineering</a>.</p>
+<p class="note">Read the official <a href="https://airflow.apache.org/docs/" target="_blank" rel="noopener">Airflow documentation</a> or go <a href="/data-engineering/">back to Data etc.</a>.</p>
 {% endraw %}

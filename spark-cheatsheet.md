@@ -94,4 +94,4 @@ spark.sql("""
   <div class="cmd"><code>explain()</code><p>Read the physical plan before guessing at what is slow.</p></div>
 </div>
 
-<p class="note">Read the official <a href="https://spark.apache.org/docs/latest/" target="_blank" rel="noopener">Spark documentation</a> or go <a href="/data-engineering/">back to Data Engineering</a>.</p>
+<p class="note">Read the official <a href="https://spark.apache.org/docs/latest/" target="_blank" rel="noopener">Spark documentation</a> or go <a href="/data-engineering/">back to Data etc.</a>.</p>

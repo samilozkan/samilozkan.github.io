@@ -313,5 +313,5 @@ models:
 </code></pre>
 </div>
 
-<p class="note">Want to go deeper? Read the official <a href="https://docs.getdbt.com/" target="_blank" rel="noopener">dbt documentation</a> or go <a href="/data-engineering/">back to Data Engineering</a>.</p>
+<p class="note">Want to go deeper? Read the official <a href="https://docs.getdbt.com/" target="_blank" rel="noopener">dbt documentation</a> or go <a href="/data-engineering/">back to Data etc.</a>.</p>
 {% endraw %}

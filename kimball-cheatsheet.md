@@ -111,4 +111,4 @@ values
   <div class="cmd"><code>Date dimension</code><p>Always build one. Do not compute month names in every query.</p></div>
 </div>
 
-<p class="note">Read the <a href="https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/" target="_blank" rel="noopener">Kimball dimensional modeling techniques</a> or go <a href="/data-engineering/">back to Data Engineering</a>.</p>
+<p class="note">Read the <a href="https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/" target="_blank" rel="noopener">Kimball dimensional modeling techniques</a> or go <a href="/data-engineering/">back to Data etc.</a>.</p>
