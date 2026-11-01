@@ -63,51 +63,7 @@
     </div>
 
     {% include analytics.html %}
-    <script>
-    (function () {
-      var c = document.getElementById('data-bg');
-      if (!c || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var x = c.getContext('2d'), w, h, nodes = [], packets = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
-      function size() {
-        w = window.innerWidth; h = window.innerHeight;
-        c.width = w * dpr; c.height = h * dpr;
-        x.setTransform(dpr, 0, 0, dpr, 0, 0);
-        var n = Math.max(25, Math.min(70, Math.round(w * h / 22000)));
-        nodes = [];
-        for (var i = 0; i < n; i++) nodes.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25 });
-      }
-      function frame() {
-        x.clearRect(0, 0, w, h);
-        var i, j, a, b, d, D = 150;
-        for (i = 0; i < nodes.length; i++) {
-          a = nodes[i]; a.x += a.vx; a.y += a.vy;
-          if (a.x < 0 || a.x > w) a.vx *= -1;
-          if (a.y < 0 || a.y > h) a.vy *= -1;
-        }
-        for (i = 0; i < nodes.length; i++) {
-          a = nodes[i];
-          for (j = i + 1; j < nodes.length; j++) {
-            b = nodes[j]; d = Math.hypot(a.x - b.x, a.y - b.y);
-            if (d < D) {
-              x.strokeStyle = 'rgba(65,131,196,' + (0.22 * (1 - d / D)) + ')';
-              x.lineWidth = 1; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke();
-              if (Math.random() < 0.0006 && packets.length < 12) packets.push({ a: a, b: b, t: 0 });
-            }
-          }
-          x.fillStyle = 'rgba(139,233,160,0.5)';
-          x.beginPath(); x.arc(a.x, a.y, 1.6, 0, 6.283); x.fill();
-        }
-        for (i = packets.length - 1; i >= 0; i--) {
-          var p = packets[i]; p.t += 0.015;
-          if (p.t >= 1) { packets.splice(i, 1); continue; }
-          x.fillStyle = 'rgba(139,233,160,0.9)';
-          x.beginPath(); x.arc(p.a.x + (p.b.x - p.a.x) * p.t, p.a.y + (p.b.y - p.a.y) * p.t, 2.2, 0, 6.283); x.fill();
-        }
-        requestAnimationFrame(frame);
-      }
-      size(); window.addEventListener('resize', size); frame();
-    })();
-    </script>
+    <script src="{{ site.baseurl }}/js/bg.js?v={{ site.time | date: '%s' }}" defer></script>
     <script>
     (function () {
       var el = document.querySelector('.typed');
