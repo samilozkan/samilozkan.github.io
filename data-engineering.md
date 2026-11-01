@@ -54,6 +54,15 @@ published: true
   </span>
   <span class="fg-arrow" aria-hidden="true">→</span>
 </a>
+<a class="featured-guide" href="{{ site.baseurl }}/data-engineering/sql-detective/" style="--accent:#e0a458">
+  <span class="fg-logo" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#e0a458"/><g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="21" cy="21" r="8"/><path d="M27 27l9 9"/><path d="M17 21h8M21 17v8" stroke-width="2"/></g></svg></span>
+  <span class="fg-body">
+    <span class="stage-no">interactive game · new</span>
+    <span class="fg-title">SQL Detective</span>
+    <span class="fg-desc">Solve a money-laundering case in 16 levels. Write real SQL, from SELECT to subqueries, and catch the suspect.</span>
+  </span>
+  <span class="fg-arrow" aria-hidden="true">→</span>
+</a>
 </div>
 
 <h2 class="section-label"><span>//</span> official documentation</h2>
