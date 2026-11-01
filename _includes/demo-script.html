@@ -1,31 +1,37 @@
 {% raw %}
 <script>
 (function () {
-  var demos = document.querySelectorAll('.demo');
-  if (!demos.length) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var KW = {
-    sql: 'select|from|where|join|left|inner|on|group|by|order|as|and|or|with|sum|count|avg|max|min|over|partition|case|when|then|else|end|is|not|null|in|desc|asc|distinct|update|set|insert|into|values|true|false|rank|row_number|lag|lead',
-    python: 'import|from|as|def|return|for|in|if|else|elif|with|class|lambda|try|except|raise|while|True|False|None|print|yield|and|or|not|pass'
+  var JINJA = '\\{\\{[\\s\\S]*?\\}\\}|\\{%[\\s\\S]*?%\\}';
+  var STR = '\'[^\'\\n]*\'|"[^"\\n]*"';
+  var NUM = '\\b\\d+(?:\\.\\d+)?\\b';
+  var LANGS = {
+    sql: {
+      flags: 'gi', c: '--[^\\n]*',
+      k: '\\b(?:select|from|where|join|left|inner|on|using|group|by|order|as|and|or|with|sum|count|avg|max|min|over|partition|case|when|then|else|end|is|not|null|in|desc|asc|distinct|update|set|insert|into|values|true|false|rank|row_number|lag|lead|create|table|view|replace|merge)\\b'
+    },
+    python: {
+      flags: 'g', c: '#[^\\n]*',
+      k: '@\\w+|\\b(?:import|from|as|def|return|for|in|if|else|elif|with|class|lambda|try|except|raise|while|True|False|None|print|yield|and|or|not|pass)\\b'
+    },
+    yaml: { flags: 'g', c: '#[^\\n]*', k: '[\\w.-]+(?=:)|\\b(?:true|false|null)\\b' },
+    shell: { flags: 'g', c: '#[^\\n]*', k: '\\b(?:dbt|pip|cd|git|python)\\b|\\B--?[a-z][\\w-]*' }
   };
-  var COMMENT = { sql: '--', python: '#' };
   var cache = {};
 
   function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
   function regexFor(lang) {
     if (!cache[lang]) {
-      cache[lang] = new RegExp(
-        '(' + COMMENT[lang] + '[^\\n]*)|(\\{\\{[\\s\\S]*?\\}\\}|\\{%[\\s\\S]*?%\\})|(\'[^\'\\n]*\'|"[^"\\n]*")|(\\b\\d+(?:\\.\\d+)?\\b)|(@\\w+|\\b(?:' + KW[lang] + ')\\b)',
-        lang === 'sql' ? 'gi' : 'g'
-      );
+      var L = LANGS[lang];
+      cache[lang] = new RegExp('(' + L.c + ')|(' + JINJA + ')|(' + STR + ')|(' + NUM + ')|(' + L.k + ')', L.flags);
     }
     cache[lang].lastIndex = 0;
     return cache[lang];
   }
 
   function highlight(text, lang) {
-    if (!KW[lang]) return esc(text);
+    if (!LANGS[lang]) return esc(text);
     var re = regexFor(lang), out = '', last = 0, m;
     while ((m = re.exec(text))) {
       var cls = m[1] ? 'c' : m[2] ? 'j' : m[3] ? 's' : m[4] ? 'n' : 'k';
@@ -34,6 +40,10 @@
     }
     return out + esc(text.slice(last));
   }
+  window.demoHighlight = highlight;
+
+  var demos = document.querySelectorAll('.demo');
+  if (!demos.length) return;
 
   function setStatus(d, text) {
     var s = d.querySelector('.demo-status');

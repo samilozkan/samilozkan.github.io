@@ -2,9 +2,19 @@
 layout: default
 ---
 
-<article class="page">
+<article class="page{% if page.toc %} has-toc{% endif %}">
 
   {% unless page.hide_title %}<h1>{{ page.title }}</h1>{% endunless %}
+
+  {% if page.toc %}
+  <aside class="toc" aria-label="On this page">
+    <div class="toc-inner">
+      <p class="toc-title"><span>On this page</span><span class="toc-pct">0%</span></p>
+      <ol class="toc-list"></ol>
+      <div class="toc-progress" aria-hidden="true"><span></span></div>
+    </div>
+  </aside>
+  {% endif %}
 
   <div class="entry">
     {{ content }}

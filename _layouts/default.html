@@ -121,5 +121,7 @@
     })();
     </script>
     {% include demo-script.html %}
+    {% if page.toc %}<script src="{{ site.baseurl }}/js/toc.js" defer></script>{% endif %}
+    {% for s in page.scripts %}<script src="{{ site.baseurl }}/js/{{ s }}.js" defer></script>{% endfor %}
   </body>
 </html>

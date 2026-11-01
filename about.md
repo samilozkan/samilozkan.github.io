@@ -33,7 +33,3 @@ I'm Şamil, a Data & Analytics Engineer. I turn raw data into reliable, decision
 - AWS Fundamentals: Going Cloud-Native - Amazon Web Services
 - Google Analytics Certificate
 - Data Science Professional Certificate - IBM
-
-## Connect
-
-[LinkedIn](https://www.linkedin.com/in/ssamilozkan/) · [GitHub](https://github.com/samilozkan)
