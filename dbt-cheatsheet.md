@@ -2,7 +2,7 @@
 layout: page
 title: dbt Cheat Sheet
 permalink: /data-engineering/dbt/
-terminal: 'dbt build --select +fct_orders'
+terminal: 'dbt build --select +fct_transactions'
 published: true
 ---
 
@@ -33,13 +33,13 @@ published: true
     <path d="M530 162 C555 162 555 112 580 112"/>
   </g>
   <g class="lin-node" font-size="13" text-anchor="middle">
-    <rect x="10" y="40" width="140" height="44" rx="6" stroke="#e0a458"/><text x="80" y="67">raw.orders</text>
+    <rect x="10" y="40" width="140" height="44" rx="6" stroke="#e0a458"/><text x="80" y="67">raw.transactions</text>
     <rect x="10" y="140" width="140" height="44" rx="6" stroke="#e0a458"/><text x="80" y="167">raw.customers</text>
-    <rect x="200" y="40" width="140" height="44" rx="6" stroke="#4183C4"/><text x="270" y="67">stg_orders</text>
+    <rect x="200" y="40" width="140" height="44" rx="6" stroke="#4183C4"/><text x="270" y="67">stg_transactions</text>
     <rect x="200" y="140" width="140" height="44" rx="6" stroke="#4183C4"/><text x="270" y="167">stg_customers</text>
-    <rect x="390" y="40" width="140" height="44" rx="6" stroke="#8be9a0"/><text x="460" y="67">fct_orders</text>
+    <rect x="390" y="40" width="140" height="44" rx="6" stroke="#8be9a0"/><text x="460" y="67">fct_transactions</text>
     <rect x="390" y="140" width="140" height="44" rx="6" stroke="#8be9a0"/><text x="460" y="167">dim_customers</text>
-    <rect x="580" y="90" width="140" height="44" rx="6" stroke="#c678dd"/><text x="650" y="117">dashboard</text>
+    <rect x="580" y="90" width="140" height="44" rx="6" stroke="#c678dd"/><text x="650" y="117">aml_alerts</text>
   </g>
 </svg>
 </div>
@@ -64,12 +64,12 @@ published: true
 <h2 class="section-label"><span>//</span> 03 · selecting what to run</h2>
 
 <div class="cmd-grid">
-  <div class="cmd"><code>--select fct_orders</code><p>Just that model.</p></div>
-  <div class="cmd"><code>--select fct_orders+</code><p>The model and everything downstream.</p></div>
-  <div class="cmd"><code>--select +fct_orders</code><p>The model and everything upstream.</p></div>
+  <div class="cmd"><code>--select fct_transactions</code><p>Just that model.</p></div>
+  <div class="cmd"><code>--select fct_transactions+</code><p>The model and everything downstream.</p></div>
+  <div class="cmd"><code>--select +fct_transactions</code><p>The model and everything upstream.</p></div>
   <div class="cmd"><code>--select tag:daily</code><p>Everything with a tag.</p></div>
   <div class="cmd"><code>--select path:models/marts</code><p>Everything in a folder.</p></div>
-  <div class="cmd"><code>--exclude stg_orders</code><p>Skip specific nodes.</p></div>
+  <div class="cmd"><code>--exclude stg_transactions</code><p>Skip specific nodes.</p></div>
   <div class="cmd"><code>--select state:modified+</code><p>Changed models and their children (with <code>--state</code>).</p></div>
   <div class="cmd"><code>--target prod</code><p>Use another target from <code>profiles.yml</code>.</p></div>
 </div>
@@ -101,57 +101,53 @@ published: true
 </div>
 
 <h2 class="section-label"><span>//</span> 05 · a model, in practice</h2>
-<p>Write a staging model, run it, and see what dbt builds:</p>
+<p>Write a staging model for payment transactions, run it, and see what dbt builds:</p>
 
 <div class="demo" data-lang="sql">
-  <div class="demo-bar"><i></i><i></i><i></i><span class="demo-file">models/staging/stg_orders.sql</span><span class="demo-status"></span><button class="demo-replay" type="button">↻ replay</button></div>
+  <div class="demo-bar"><i></i><i></i><i></i><span class="demo-file">models/staging/stg_transactions.sql</span><span class="demo-status"></span><button class="demo-replay" type="button">↻ replay</button></div>
 <pre class="demo-code"><code>select
-    id          as order_id,
+    id            as txn_id,
     customer_id,
     amount,
-    created_at  as ordered_at
-from {{ source('shop', 'orders') }}
+    currency,
+    counterparty_country,
+    created_at    as txn_ts
+from {{ source('core_banking', 'transactions') }}
 where amount is not null
 </code></pre>
   <div class="demo-out">
-    <span class="demo-out-label">$ dbt run --select stg_orders</span>
-<pre class="log"><span class="ln" style="--i:0">1 of 1 START sql view model analytics.stg_orders ........ [RUN]</span>
-<span class="ln ok" style="--i:1">1 of 1 OK created sql view model analytics.stg_orders ... [SUCCESS in 0.42s]</span>
+    <span class="demo-out-label">$ dbt run --select stg_transactions</span>
+<pre class="log"><span class="ln" style="--i:0">1 of 1 START sql view model aml.stg_transactions ........ [RUN]</span>
+<span class="ln ok" style="--i:1">1 of 1 OK created sql view model aml.stg_transactions ... [SUCCESS in 0.42s]</span>
 <span class="ln ok" style="--i:2">Completed successfully. PASS=1 WARN=0 ERROR=0 TOTAL=1</span></pre>
     <div class="table-wrap" style="margin-top:12px"><table>
-      <thead><tr><th>order_id</th><th>customer_id</th><th class="num">amount</th><th>ordered_at</th></tr></thead>
+      <thead><tr><th>txn_id</th><th>customer_id</th><th class="num">amount</th><th>currency</th><th>counterparty_country</th></tr></thead>
       <tbody>
-        <tr><td>1001</td><td>C-1</td><td class="num">42.00</td><td>2026-10-30</td></tr>
-        <tr><td>1002</td><td>C-2</td><td class="num">58.50</td><td>2026-10-30</td></tr>
-        <tr><td>1003</td><td>C-1</td><td class="num">19.99</td><td>2026-10-31</td></tr>
+        <tr><td>T-90001</td><td>C-1042</td><td class="num">9,800.00</td><td>EUR</td><td>DE</td></tr>
+        <tr><td>T-90002</td><td>C-2217</td><td class="num">48,500.00</td><td>USD</td><td>AE</td></tr>
+        <tr><td>T-90003</td><td>C-1042</td><td class="num">9,750.00</td><td>EUR</td><td>DE</td></tr>
       </tbody>
     </table></div>
   </div>
 </div>
 
-<p>The same model without the demo, plus an incremental one. Staging models read from <code>source()</code> and clean things up:</p>
+<p>Marts build on staging with <code>ref()</code>. This one is incremental and flags transactions that need review (a large amount or a high-risk country):</p>
 
 ```sql
--- models/staging/stg_orders.sql
+-- models/marts/fct_transactions.sql
+{{ config(materialized='incremental', unique_key='txn_id') }}
+
 select
-    id          as order_id,
-    customer_id,
-    amount,
-    created_at  as ordered_at
-from {{ source('shop', 'orders') }}
-```
-
-<p>Marts build on staging with <code>ref()</code>. This one is incremental:</p>
-
-```sql
--- models/marts/fct_orders.sql
-{{ config(materialized='incremental', unique_key='order_id') }}
-
-select order_id, customer_id, amount, ordered_at
-from {{ ref('stg_orders') }}
+    t.txn_id,
+    t.customer_id,
+    t.amount,
+    t.txn_ts,
+    (t.amount >= 10000 or c.risk_rating = 'high') as needs_review
+from {{ ref('stg_transactions') }} t
+join {{ ref('dim_customers') }} c using (customer_id)
 
 {% if is_incremental() %}
-where ordered_at > (select max(ordered_at) from {{ this }})
+where t.txn_ts > (select max(txn_ts) from {{ this }})
 {% endif %}
 ```
 
@@ -163,14 +159,14 @@ where ordered_at > (select max(ordered_at) from {{ this }})
 version: 2
 
 models:
-  - name: fct_orders
+  - name: fct_transactions
     columns:
-      - name: order_id
+      - name: txn_id
         data_tests: [unique, not_null]
-      - name: status
+      - name: needs_review
         data_tests:
           - accepted_values:
-              values: ['placed', 'shipped', 'returned']
+              values: [true, false]
       - name: customer_id
         data_tests:
           - relationships:

@@ -2,7 +2,7 @@
 layout: page
 title: Data Engineering
 permalink: /data-engineering/
-terminal: 'dbt run && airflow dags trigger daily_insights'
+terminal: 'dbt run && airflow dags trigger aml_daily_monitoring'
 published: true
 ---
 
@@ -23,7 +23,7 @@ published: true
   <span class="fg-body">
     <span class="stage-no">visual guide · animated</span>
     <span class="fg-title">Airflow Cheat Sheet</span>
-    <span class="fg-desc">Write a DAG and watch the tasks run. Schedules, concepts and best practices.</span>
+    <span class="fg-desc">Build a daily AML monitoring DAG and watch the tasks run. Schedules, concepts and best practices.</span>
   </span>
   <span class="fg-arrow" aria-hidden="true">→</span>
 </a>
@@ -32,7 +32,7 @@ published: true
   <span class="fg-body">
     <span class="stage-no">visual guide · animated</span>
     <span class="fg-title">Spark Cheat Sheet</span>
-    <span class="fg-desc">PySpark code that types itself and shows the result. Lazy evaluation and performance tips.</span>
+    <span class="fg-desc">PySpark transaction-monitoring rules that type themselves and show the result. Lazy evaluation and performance tips.</span>
   </span>
   <span class="fg-arrow" aria-hidden="true">→</span>
 </a>
@@ -41,7 +41,7 @@ published: true
   <span class="fg-body">
     <span class="stage-no">visual guide · animated</span>
     <span class="fg-title">Python Cheat Sheet</span>
-    <span class="fg-desc">Clean data with pandas, add retries, and build good habits for production code.</span>
+    <span class="fg-desc">Spot structuring with pandas, add retries to screening calls, and build good production habits.</span>
   </span>
   <span class="fg-arrow" aria-hidden="true">→</span>
 </a>
@@ -50,7 +50,7 @@ published: true
   <span class="fg-body">
     <span class="stage-no">visual guide · animated</span>
     <span class="fg-title">Kimball Cheat Sheet</span>
-    <span class="fg-desc">Star schema, the 4-step design process, SCD Type 2 and star-join queries.</span>
+    <span class="fg-desc">Star schema for transaction data, the 4-step design process, SCD Type 2 and star-join queries.</span>
   </span>
   <span class="fg-arrow" aria-hidden="true">→</span>
 </a>

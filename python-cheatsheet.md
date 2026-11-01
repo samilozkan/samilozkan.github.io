@@ -2,52 +2,53 @@
 layout: page
 title: Python Cheat Sheet
 permalink: /data-engineering/python/
-terminal: 'python clean_orders.py'
+terminal: 'python detect_structuring.py'
 published: true
 ---
 
-<p class="books-intro">A visual quick reference for <strong>Python for data engineering</strong>: clean data with pandas, make flaky calls reliable, and write code that is easy to run in production.</p>
+<p class="books-intro">A visual quick reference for <strong>Python for data engineering</strong>: detect suspicious patterns with pandas, make flaky calls reliable, and write code that is easy to run in production.</p>
 
-<h2 class="section-label"><span>//</span> 01 · clean and summarize with pandas</h2>
+<h2 class="section-label"><span>//</span> 01 · detect structuring with pandas</h2>
+<p>Structuring (or "smurfing") means splitting a large amount into several transactions just under the reporting threshold. Here is a simple rule to catch it.</p>
 
 <div class="demo" data-lang="python">
-  <div class="demo-bar"><i></i><i></i><i></i><span class="demo-file">clean_orders.py</span><span class="demo-status"></span><button class="demo-replay" type="button">↻ replay</button></div>
+  <div class="demo-bar"><i></i><i></i><i></i><span class="demo-file">detect_structuring.py</span><span class="demo-status"></span><button class="demo-replay" type="button">↻ replay</button></div>
 <pre class="demo-code"><code>import pandas as pd
 
-df = pd.read_csv("orders.csv", parse_dates=["created_at"])
+THRESHOLD = 10_000
 
-df = (
-    df.dropna(subset=["customer_id"])
-      .assign(amount=lambda d: d["amount"].round(2))
-      .query("amount > 0")
+df = pd.read_csv("transactions.csv", parse_dates=["txn_ts"])
+
+near = df[df["amount"].between(0.9 * THRESHOLD, THRESHOLD - 0.01)]
+
+suspects = (
+    near.groupby("customer_id")["amount"]
+        .agg(txns="count", total="sum")
+        .query("txns >= 3")
+        .sort_values("total", ascending=False)
+        .reset_index()
 )
 
-summary = (
-    df.groupby("customer_id")["amount"]
-      .agg(orders="count", revenue="sum")
-      .reset_index()
-)
-
-print(summary)
+print(suspects)
 </code></pre>
   <div class="demo-out">
-    <span class="demo-out-label">output</span>
+    <span class="demo-out-label">output · possible structuring</span>
     <div class="table-wrap"><table>
-      <thead><tr><th>customer_id</th><th class="num">orders</th><th class="num">revenue</th></tr></thead>
+      <thead><tr><th>customer_id</th><th class="num">txns</th><th class="num">total</th></tr></thead>
       <tbody>
-        <tr><td>C-1001</td><td class="num">3</td><td class="num">214.50</td></tr>
-        <tr><td>C-1002</td><td class="num">1</td><td class="num">58.00</td></tr>
-        <tr><td>C-1003</td><td class="num">5</td><td class="num">902.75</td></tr>
+        <tr><td>C-1042</td><td class="num">5</td><td class="num">48,650.00</td></tr>
+        <tr><td>C-5120</td><td class="num">4</td><td class="num">39,100.00</td></tr>
+        <tr><td>C-7781</td><td class="num">3</td><td class="num">28,900.00</td></tr>
       </tbody>
     </table></div>
   </div>
 </div>
 
 <h2 class="section-label"><span>//</span> 02 · make flaky calls reliable</h2>
-<p>APIs fail. A small retry decorator keeps a pipeline from falling over on a hiccup.</p>
+<p>A sanctions-screening API can time out. A small retry decorator keeps the pipeline from falling over on a hiccup, without silently skipping a customer.</p>
 
 <div class="demo" data-lang="python">
-  <div class="demo-bar"><i></i><i></i><i></i><span class="demo-file">retry.py</span><span class="demo-status"></span><button class="demo-replay" type="button">↻ replay</button></div>
+  <div class="demo-bar"><i></i><i></i><i></i><span class="demo-file">screening.py</span><span class="demo-status"></span><button class="demo-replay" type="button">↻ replay</button></div>
 <pre class="demo-code"><code>import time
 from functools import wraps
 
@@ -61,19 +62,19 @@ def retry(times=3, delay=1):
                 except Exception as e:
                     print(f"attempt {attempt} failed: {e}")
                     time.sleep(delay)
-            raise RuntimeError("all retries failed")
+            raise RuntimeError("screening failed, do not skip")
         return wrapper
     return decorator
 
 @retry(times=3)
-def fetch_orders():
-    ...  # call the API
+def screen_name(name):
+    ...  # call the sanctions-list API
 </code></pre>
   <div class="demo-out">
     <span class="demo-out-label">output</span>
 <pre class="log"><span class="ln warn" style="--i:0">attempt 1 failed: 503 Service Unavailable</span>
 <span class="ln warn" style="--i:1">attempt 2 failed: timeout after 10s</span>
-<span class="ln ok" style="--i:2">attempt 3 succeeded: 1,240 orders fetched</span></pre>
+<span class="ln ok" style="--i:2">attempt 3 succeeded: 0 sanctions matches for "Acme Trading Ltd"</span></pre>
   </div>
 </div>
 
